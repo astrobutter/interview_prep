@@ -1,0 +1,508 @@
+Scope & Hoisting
+	- refers to the context or environment in which variables are declared and can be accessed.
+	- visibility and lifetime of a variable, where it is valid and accessible.
+	- global, local, and block scope.
+
+
+
+VARIABLE SHADOWING IN LOCAL SCOPE
+the local variable message shadows the global variable with the same name when you're inside the showMessage function.
+
+    var message = "Global message";
+    function showMessage() {
+    var message = "Local message";
+    console.log(message); // Local message
+    }
+    showMessage();
+    console.log(message); // Global message
+
+
+
+BLOCK SCOPE
+Unlike global and local scopes, which are defined by functions or global context, block scope is created within specific code blocks, such as conditional statements (if, else, switch) and loops (for, while).
+
+
+
+SCOPE CHAIN
+	- This process of searching for variables through multiple scopes is known as the "scope chain."
+	- When you reference a variable, JS searches for it starting from the top sheet (the current local or block scope) and moves down through the sheets, looking in each scope until it finds the variable.
+
+    var a = "I'm global";
+    function firstFunction() {
+        var a = "I'm in firstFunction";
+        function secondFunction() { 
+            console.log(a);   // I'm in firstFunction
+        }
+        secondFunction();
+    }
+    firstFunction();
+
+
+
+(Lexical/STATIC Scoping ) - scope of a function is determined by where the function is declared, not where it's called.
+
+
+
+CLOSURE
+	- a closure gives you access to an outer function's scope from an inner function.
+	- a closure is formed when a function is declared within another function, and the inner function has access to the variables of the outer function.
+    function outerFunction() {
+        var outerVariable = "I'm in outerFunction";
+        function innerFunction() {
+            console.log(outerVariable);
+        // Accesses outerVariable from the outer scope
+        }
+        return innerFunction;
+    }
+    var closure = outerFunction();
+    closure(); // This still has access to outerVariable
+
+Advanced Example:
+
+	• add5 and add10 both form closures
+    function makeAdder(x) {
+    return function (y) {
+        return x + y;
+    };
+    }
+    const add5 = makeAdder(5);
+    const add10 = makeAdder(10);
+    console.log(add5(2)); // 7
+    console.log(add10(2)); // 12
+
+
+
+HOISTING
+- Hoisting is a concept or behavior in JavaScript where the declaration of a function, variable, or class goes to the top of the scope they were defined in.
+- Before the interpreter executes the whole code, it first hoists (raises, or lifts) the declared function to the top of the scope it is defined in.
+
+    printHello()       // hello
+    function printHello() {
+    console.log("hello")
+    }
+
+printDillion is hoisted, but it is only lifted to the top of the scope it was declared in. In this case, it is declared in a local scope--in printHello. Therefore, it would only be accessible in the function. 
+    printHello()
+    printDillion()   // ReferenceError: printDillion is not defined
+    function printHello() {
+    console.log('hello')
+    function printDillion() {
+        console.log("dillion")
+    }
+    }
+
+
+
+Variable Hoisting
+Here, we declare a name with "Dillion". But, we access var before it was declared. But we don't get any errors. Hoisting happened. The name declaration is hoisted to the top with undefined as value, so the interpreter "knows" that there is a variable called name. If the interpreter did not know, you would get name is not defined. 
+
+	- we can redeclare the variable using only with the var repeatedly
+	- Var in block scope will result in hoisting at the scope above from currently (fn level scope).
+
+    console.log(name)  // undefined
+    var name = "Dillion"
+
+    console.log(name)
+    // ReferenceError: name is not defined
+    var myName = "Dillion"
+
+variables are hoisted but only to the top of the scope they were declared in. In this case, name is declared in print, so it will be hoisted to the top of that local scope. 
+    print()
+    console.log(name)  // ReferenceError: name is not defined
+    function print() {
+    var name = "Dillion"
+    }
+
+
+	- let
+
+variables declared with let do not have a default value when hoisted. As we saw in var, the variables have a default value of undefined until the line where the declaration/initialization is executed. But with let, the variables are uninitialized.
+
+Temporal Dead Zone: The variables are hoisted to the top of the scope they are declared in (local, global, or block), but are not accessible because they have not been initialized.
+
+
+	- const
+
+- same concept of a temporal dead zone applies to const variables
+- const declarations are block scoped
+- a const object cannot be updated, the properties of this objects can be updated
+    const greeting = {
+            message: "say Hi",
+            times: 4
+    }
+    greeting.message = "say Hello instead";
+
+
+Class Hoisting
+Just like let and const variables, classes are hoisted to the top of the scope they are defined in, but inaccessible until they are initialized. 
+
+    const Dog = new Animal("Bingo")
+    // ReferenceError: Cannot access 'Animal' before initialization
+    class Animal {
+    constructor(name) {
+        this.name = name
+    }
+    }
+
+
+
+For of : It loops over the Values
+    for (const value of array ) {   
+    console.log(value)
+    }
+    // 1
+    // 2
+    // 3
+    // 4
+    // 5
+
+For in : It loops over the Keys
+    for (const key in array ) {
+    console.log(key, array[key])
+    }
+    // '0' 1
+    // '1' 2
+    // '2' 3
+    // '3' 4
+    // '4' 5
+    // 'six' 6
+    // 'seven' 7
+
+    const array = [1,2,3,4,5]
+    array.six = 6
+    array.seven = 7
+    //  [1,2,3,4,5,six:6,seven:7]
+
+
+
+String
+
+	- .charAt()
+	- .toUpperCase() and .toLowerCase()
+	- .concat()  
+	- .indexOf()
+	- .slice()
+	- .split(): takes a pattern as an argument and divides the string into multiple substrings. The pattern describes where the splits occurs. This method returns an array of these substrings.
+	- .join(): returns a string separated by separator string and takes array as i/p.
+
+
+    // Using a constructor
+    let string1 = String('String Creation');
+    // Using a string literal
+    let string2 = 'String Creation';
+
+    Console.log(string1[0]);
+    Console.log(string1.charAt(0));
+
+    Console.log(string1.slice(1,15))
+    //  tring Creation
+
+    Console.log(string1.split(' '))
+    //  [ 'String', 'Creation' ]
+
+    const elements = ['Fire', 'Air','Water'];
+    console.log(elements.join());
+    // "Fire,Air,Water"
+
+Array
+
+
+
+	- array.forEach(): The main drawback apart from only being of use on arrays, is you can’t stop it
+    let arr1 = Array();
+    let arr2 = [];
+    const array = [1,2,3 ... 562145]
+    array.forEach((num)=> {
+    console.log(num)
+    }
+
+	- .indexOf() 
+	- .push() & .pop()
+	- .map(): It takes a callback function. Map creates a new array and never mutates the old one, and the callback expresses what you want to do with the data from the original array
+
+    let arr= [{name : 'joe'} , {name : 'john'}];
+    let namesArr = arr.map(
+        (elem, index) => console.log(elem.name, index)
+    );
+    //  joe 0 john 1
+
+	- .filter(): create an array of only the numbers that pass a certain condition. It also takes a callback as an argument. The callback returns a Boolean – true if the element passes the test, otherwise false. Only elements that pass will be in the generated array and the callback expresses the test.
+
+    let arr = [1, 2, 3, 4, 5];
+    let filteredArray = arr.filter(elem => elem > 3); 
+    // output [4, 5]
+
+	- .some(): to check if there is at least one number that passes a certain test. This method takes a callback as an argument and returns a Boolean which is true if at least one element of the array passes the test, and otherwise is false
+
+    let bool = arr.some(elem => elem > 4); 
+    // true
+
+	- .sort(): arranging data into a meaningful order
+
+    arr.sort();
+    // [1, 2, 3, 4]
+    
+    arr.sort((elem1 , elem2) => elem2 - elem1);
+    // [4, 3, 2, 1]
+
+	- .includes(): determines whether an array includes a certain value among its entries, returning true or false as appropriate.
+
+    const array1 = [1, 2, 3];
+    console.log(array1.includes(2));
+    //  true
+
+
+	- .reduce()
+•  pass two parameters to the callback function: accumulator and item.
+•  ability to collect the result of each iteration and to get a single value from the array
+• In the first iteration, the accumulator will contain whatever value you passed as the second argument of the reduce() method, it’s 0.
+• Normally, array element 0 is used as initial value, and the iteration starts from array element 1.
+• If an initial value is supplied, this is used, and the iteration starts from array element 0.
+
+    const items = [{ name: 'Apple', price: 1 },...];
+
+    const totalPrice = items.reduce(
+        (accumulator ,item) => {
+    return accumulator += item.price;
+    }, 0
+    );
+
+
+
+Closure Functions
+A closure is a function that has access to variables in its parent scope, even after the parent function has returned. This allows for variables to be preserved between function calls, and it is a powerful feature that allows for more advanced programming patterns such as object-oriented programming.
+
+- This is one of the underlying mechanism of callbacks, as callbacks can still reference and use variables created in an outer function after that outer function has been closed.
+
+- is the combination of a function bundled together (enclosed) with references to its surrounding state (the lexical environment).
+
+    function getTwoNumbers(num1, num2) {
+        return function add() {
+            const total = num1 + num2;
+            console.log(total);
+        };
+    }
+    const addNumbers = getTwoNumbers(5, 2);
+    addNumbers();
+
+
+
+Callback Functions
+- Functions can also be passed as arguments to other functions, known as callback functions
+- This is because it is invoked or executed inside of the higher order function it's passed into.
+- Here function logResult is a callback function.
+- Callbacks enable you to handle the outcomes of asynchronous operations in a non-blocking way. This means your program can keep running while the operation is ongoing.
+- essential for managing the outcomes of asynchronous tasks without blocking the program’s execution.
+
+    function multiplyByTwo(n, callback) {
+        var result = n * 2;
+        callback(result);
+        }
+    function logResult(result) {
+        console.log(result);
+    }
+    multiplyByTwo(5, logResult);      // 10
+
+
+
+Higher Order Functions
+- Functions passed as arguments to other functions, and also return a function as value.
+- Array Methods( map, filter, forEach, find, findIndex, some )
+- Timer Events ( setInterval, setTimeout )
+- Each function is doing its own job and we are not repeating anything here.
+	Function addNumbers( a, b){
+        Return a+b;
+    }
+    function performOperation(a, b, operation) {
+        return operation(a, b);
+    }
+    let result = performOperation(5, 10, addNumbers);
+    console.log(result);  // 15
+
+The higher order function named getGreetingDetails takes in two arguments: a function to compose the customer's first and last name, and a salutation. Then it returns a function named greetCustomer which accepts the first and last name of a customer as arguments. The returned greetCustomer function also uses the argument accepted by getGreetingDetails to execute some actions, too.
+    function composeName(firstName, lastName) {
+    const fullName = `${firstName} ${lastName}`;
+        return fullName;
+    }
+    function getGreetingsDetails(composerFunc, salutation) {
+    return function greetCustomer(firstName, lastName) {
+        const fullName = composerFunc(firstName, lastName);
+        console.log(`${salutation} ${fullName}`);
+    };
+    }
+    const greet = getGreetingsDetails(composeName, "Happy New Year!");
+    greet("Quincy", "Larson");
+
+
+
+Call() Method
+	- The call() method is a predefined JavaScript method.
+	- It can be used to invoke (call) a method with an owner object as an argument (parameter).
+	- With call(), an object can use a method belonging to another object.
+	- The call() method of Function instances calls this function with a given this value and arguments provided individually.
+	- Using call() to invoke a function and specifying the this value
+
+    const person = {
+    fullName: function() {
+        return this.firstName + " " + this.lastName;
+    }
+    }
+    const person1 = { firstName:"John",  lastName: "Doe"}
+    const person2 = { firstName:"Mary", lastName: "Doe"}
+
+    person.fullName.call(person1);  // "John Doe":
+
+
+
+Apply
+• The only difference between call ansd apply is the difference in how arguments are passed. In apply, arguments you can pass an argument as an array literal or a new array object.
+									func.apply(thisObj, argumentsArray);
+									func.apply(thisObj, [args1, args2, ...]);
+									
+
+    function Car(type, fuelType){
+        this.type = type;
+        this.fuelType = fuelType;
+    }
+    function setBrand(brand){
+        Car.apply(this, ["convertible", "petrol"]); //Syntax with array literal
+        this.brand = brand;
+        console.log(`Car details = `, this);
+    }
+    function definePrice(price){
+        Car.apply(this, new Array("convertible", "diesel")); //Syntax with array object construction
+        this.price = price;
+        console.log(`Car details = `, this);
+    }
+    const newBrand = new setBrand('Brand1');
+    const newCarPrice = new definePrice(100000);
+
+
+    Car details =  setBrand { type: 'convertible', fuelType: 'petrol', brand: 'Brand1' }
+    Car details =  definePrice { type: 'convertible', fuelType: 'diesel', price: 100000 }
+
+
+
+Async
+    • reason for writing asynchronous code is to prevent a scenario where a particular running function ends up blocking the rest of the code.
+    • Asynchronous instructions do not stop the JavaScript engine from actively accepting and processing more instructions.
+    • while executing their tasks, whenever Eich Agency encountered a task they could not immediately execute, they took action. They contacted a different company offering that specific service and requested help. After contacting the company, they returned to their order of tasks. If, while following their list of tasks, they encountered another assignment that they couldn't perform, they repeated the process. They would find a separate service provider, discuss their needs with them, and request the required service.
+    • We refer to the functions that rely on the response from asynchronous operations as callback functions. A callback function is a function that is passed as an argument to a parent function, which the parent function needs to invoke after completing its process. In JavaScript, asynchronous operations utilize callbacks to further process the responses they receive from Web APIs.
+
+
+
+Callback
+    Callbacks enable you to handle the outcomes of asynchronous operations in a non-blocking way. This means your program can keep running while the operation is ongoing.
+    essential for managing the outcomes of asynchronous tasks without blocking the program’s execution. 
+    callback is any function that is a parameter of an async function, which the async function invokes to complete its operation.
+
+
+
+Promises
+    • To manage asynchronous actions in JavaScript, promises are used. It is an assurance that something will be done. The promise is used to keep track of whether the asynchronous event has been executed or not and determines what happens after the event has occurred.
+    • The Promise constructor function takes in one parameter. That parameter is a function that defines when to resolve the new promise, and optionally when to reject it.
+    • resolve is a function with an optional parameter representing the resolved value. Also, reject is a function with an optional parameter representing the reason why the promise failed.
+    • To create a callback for a promise, you need to use the .then() method. This method takes in two callback functions. The first function runs if the promise is resolved, while the second function runs if the promise is rejected.
+    • Error-handling and Resolve callback hell.
+
+    function watchTutorialCallback(callback, errorCallback) {
+    let userLeft = false
+    let userWatchingCatMeme = false
+
+    if (userLeft) {
+        errorCallback({
+        name: 'User Left',
+        message: ':('
+        })
+    } else if (userWatchingCatMeme) {
+        errorCallback({
+        name: 'User Watching Cat Meme',
+        message: 'WebDevSimplified < Cat' 
+        })
+    } else {
+        callback('Thumbs up and Subscribe')
+    }
+    }
+
+    watchTutorialCallback(message => {
+    console.log(message)
+    }, error => {
+    console.log(error.name + ' ' + error.message)
+    })
+
+
+    function watchTutorialPromise() {
+    let userLeft = false
+    let userWatchingCatMeme = false
+
+    return new Promise( function(resolve, reject) => {
+        if (userLeft) {
+        reject({
+            name: 'User Left',  message: ':('
+        })
+        } else if (userWatchingCatMeme) {
+        reject({
+            name: 'User Watching Cat Meme',
+            message: 'WebDevSimplified < Cat' 
+        })
+        } else {
+        resolve('Thumbs up and Subscribe')
+        }
+    })
+    }
+
+    watchTutorialPromise().then(message => {
+    console.log(message)
+    }).catch(error => {
+    console.log(error.name + ' ' + error.message)
+    })
+
+
+
+Arrow function
+    • When you have a single-line arrow function, the return statement will be added implicitly by JavaScript. 
+    • When declare a function with the arrow function syntax, you need to assign the declaration to a variable so that the function has a name.
+    • In a regular function, the this keyword refers to the object from which you call the function. In an arrow function, the this keyword refers to the object from which you define the function.
+
+    const person = {
+    name: 'Nathan',
+    skills: ['HTML', 'CSS', 'JavaScript'],
+    showSkills() {
+        this.skills.forEach(function (skill) {
+        console.log(`${this.name} is skilled in ${skill}`);
+        });
+    },
+    };
+    person.showSkills();
+    undefined is skilled in HTML
+    undefined is skilled in CSS
+    undefined is skilled in JavaScript
+
+
+    const person = {
+    name: 'Nathan',
+    skills: ['HTML', 'CSS', 'JavaScript'],
+    showSkills() {
+        this.skills.forEach(skill => {
+        console.log(`${this.name} is skilled in ${skill}`);
+        });
+    },
+    };
+    person.showSkills();
+    Nathan is skilled in HTML
+    Nathan is skilled in CSS
+    Nathan is skilled in JavaScript
+
+    • When inside an object, the this keyword refers to the current object only when you declare the method using the standard syntax (methodName() Or methodName: function(){ })
+    • When you declare an object method using the arrow function, the this keyword refers to the global object, and the skills property is undefined there.  Never use the arrow function when declaring a method.
+
+    const person = {
+    name: 'Nathan',
+    skills: ['HTML', 'CSS', 'JavaScript'],
+    showSkills: () => {
+        this.skills.forEach(skill => {
+        console.log(`${this.name} is skilled in ${skill}`);
+        });
+    },
+    };
+    person.showSkills();
