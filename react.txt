@@ -1,0 +1,64 @@
+What is JSX?
+-JSX stands for JavaScript XML and it is an XML-like syntax extension to ECMAScript. Basically it just provides the syntactic sugar for the React.createElement(type, props, ...children) function, giving us expressiveness of JavaScript along with HTML like template syntax. React uses tools like Babel to convert JSX into React.createElement calls.
+
+-(CGPT) JSX is a syntax extension for JavaScript that looks similar to HTML but works within JavaScript files. It allows us to write UI components in a more intuitive and declarative way. Under the hood, JSX gets transformed into regular JavaScript using tools like Babel.
+
+-In the example below, the text inside <h1> tag is returned as JavaScript function to the render function.
+    export default function App() {
+      return <h1 className="greeting">{"Hello, this is a JSX Code!"}</h1>;
+    }
+
+-If you don't use JSX syntax then the respective JavaScript code should be written as below,
+    import { createElement } from "react";
+    export default function App() {
+      return createElement(
+        "h1",
+        { className: "greeting" },
+        "Hello, this is a JSX Code!"
+      );
+    }
+
+
+Difference Between Functional and Class-Based Components in React?
+- Functional Components (Modern Approach) is a JS function that takes props as an argument and returns JSX. Since React 16.8 introduced Hooks, functional components can now handle state and lifecycle methods.
+    const Counter = () => {
+    const [count, setCount] = useState(0); // Using useState hook
+    return (
+        <div>
+        <p>Count: {count}</p>
+        <button onClick={() => setCount(count + 1)}>Increment</button>
+        </div>
+    );};
+
+🔹 Key Features of Functional Components:
+Uses Hooks (useState, useEffect, etc.) for state and lifecycle management. Better performance – No unnecessary overhead from the this keyword.
+
+- Class-Based Components (Older Approach) Before React Hooks, class components were used for managing state and lifecycle methods. They are ES6 classes that extend React.Component and must include a render() method.
+    class Counter extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { count: 0 }; // State is handled in the constructor
+    }
+
+    increment = () => { this.setState({ count: this.state.count + 1 }); // Updating state };
+
+    render() {
+        return (
+        <div>
+            <p>Count: {this.state.count}</p>
+            <button onClick={this.increment}>Increment</button>
+        </div>
+        );
+    }}
+
+🔹 Key Features of Class-Based Components:
+Uses this.state for state management – State updates require setState().
+Lifecycle methods (componentDidMount, componentDidUpdate, componentWillUnmount) can be replaced with useEffect().
+
+Comparison Table
+Feature             Functional Component            Class-Based Component 
+Syntax	            Simple function returning JSX	ES6 class extending React.Component
+State Management	useState()                      Hook	this.state and setState()
+Lifecycle Methods	useEffect() Hook	            componentDidMount(), componentWillUnmount()
+Performance	Faster  (no this binding)	            Slower due to this binding
+
