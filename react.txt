@@ -56,9 +56,9 @@ Uses this.state for state management – State updates require setState().
 Lifecycle methods (componentDidMount, componentDidUpdate, componentWillUnmount) can be replaced with useEffect().
 
 Comparison Table
-Feature             Functional Component            Class-Based Component 
-Syntax	            Simple function returning JSX	ES6 class extending React.Component
-State Management	useState()                      Hook	this.state and setState()
+Feature                 Functional Component                    Class-Based Component 
+Syntax	                Simple function returning JSX	    ES6 class extending React.Component
+State Management	useState()                          Hook	this.state and setState()
 Lifecycle Methods	useEffect() Hook	            componentDidMount(), componentWillUnmount()
 Performance	Faster  (no this binding)	            Slower due to this binding
 
