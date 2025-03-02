@@ -1,4 +1,4 @@
-What is JSX?
+Q.) What is JSX?
 -JSX stands for JavaScript XML and it is an XML-like syntax extension to ECMAScript. Basically it just provides the syntactic sugar for the React.createElement(type, props, ...children) function, giving us expressiveness of JavaScript along with HTML like template syntax. React uses tools like Babel to convert JSX into React.createElement calls.
 
 -(CGPT) JSX is a syntax extension for JavaScript that looks similar to HTML but works within JavaScript files. It allows us to write UI components in a more intuitive and declarative way. Under the hood, JSX gets transformed into regular JavaScript using tools like Babel.
@@ -19,7 +19,8 @@ What is JSX?
     }
 
 
-Difference Between Functional and Class-Based Components in React?
+
+Q.) Difference Between Functional and Class-Based Components in React?
 - Functional Components (Modern Approach) is a JS function that takes props as an argument and returns JSX. Since React 16.8 introduced Hooks, functional components can now handle state and lifecycle methods.
     const Counter = () => {
     const [count, setCount] = useState(0); // Using useState hook
@@ -63,7 +64,8 @@ Lifecycle Methods	useEffect() Hook	            componentDidMount(), componentWil
 Performance	Faster  (no this binding)	            Slower due to this binding
 
 
-What are Pure Components?
+
+Q.) What are Pure Components?
 - Pure components are the components which render the same output for the same state and props. In function components, you can achieve these pure components through memoized React.memo() API wrapping around the component. This API prevents unnecessary re-renders by comparing the previous props and new props using shallow comparison. So it will be helpful for performance optimizations.
     const Counter = memo(({ count }) => {
     console.log("Counter component re-rendered!");
@@ -82,11 +84,13 @@ What are Pure Components?
     };
 
 
-What are Props in React?
+
+Q.) What are Props in React?
 -Props (short for "properties") in React are read-only inputs that allow data to be passed from a parent component to a child component. They enable reusability and make components dynamic by allowing different data to be displayed without modifying the component itself. props are used to pass data from one component to another, usually from a parent to a child. Props are immutable, meaning they cannot be modified inside the child component. They help make components reusable and flexible.
 
 
-What is the Virtual DOM in React?
+
+Q.) What is the Virtual DOM in React?
 - The Virtual DOM (VDOM) is a lightweight JavaScript representation of the real DOM (Document Object Model). React uses it to efficiently update and render UI changes by minimizing direct manipulation of the actual DOM, which is slow. In React, the Virtual DOM is an in-memory representation of the actual DOM.
 
 -When a component’s state or props change:
@@ -96,13 +100,15 @@ What is the Virtual DOM in React?
     This improves performance because React updates only the necessary parts instead of re-rendering the entire page.
 
 
-What is Lazy Loading in React?
+
+Q.) What is Lazy Loading in React?
 - Lazy Loading in React is a performance optimization technique that delays the loading of components until they are needed. This reduces the initial bundle size and improves the app’s performance by loading only the required parts of the application.
 
 - In React, lazy loading helps optimize performance by loading components only when they are needed, instead of loading everything at once. React provides the React.lazy() function to dynamically import components. This works well for code splitting, ensuring that users download only the necessary code instead of the entire application upfront.
 
 
-What are Hooks in React?
+
+Q.) What are Hooks in React?
 - Hooks are special functions in React that let you use state and lifecycle features in functional components. they allow functional components to have the same capabilities as class components without writing a class.
 
 - Before hooks, React used class components for managing state and lifecycle methods.
@@ -118,7 +124,118 @@ Only call hooks at the top level (not inside loops or conditions).
 Only call hooks inside React functional components or custom hooks.
 
 
-What is Code-Splitting in React?
+
+Q.) What is Code-Splitting in React?
 - Code-splitting is a technique used in React to split the application’s JavaScript bundle into smaller chunks, loading them only when needed. This improves performance by reducing the initial load time.
 
 - By default, React bundles all components into a single large JavaScript file. This can slow down page loading, especially for large applications. Code-splitting helps optimize performance by loading only the necessary JavaScript when a specific component is required. React achieves this using dynamic imports (import()), React.lazy(), and React.Suspense.
+
+
+
+Q.) What is the Diffing Algorithm in React?
+- The diffing algorithm in React is part of the Reconciliation process, which helps React efficiently update the UI by comparing the Virtual DOM with the previous version and making minimal changes to the actual DOM.
+
+- React uses a Virtual DOM to optimize rendering. Instead of updating the entire UI whenever state or props change, React compares the new Virtual DOM with the previous Virtual DOM using the diffing algorithm. This allows React to identify the minimal changes needed and update only the affected parts of the real DOM.
+
+    Compares the new Virtual DOM with the old Virtual DOM.
+    Finds the differences (diffs) between them.
+    Updates only the changed elements in the real DOM instead of re-rendering the entire UI.
+
+React makes two key optimizations to speed up the diffing process:
+
+1️⃣ Tree Reconciliation (Skipping Subtrees):
+    If two elements are of the same type, React only updates the changed attributes instead of re-rendering the entire node.
+    <button style={{ color: "red" }}>Click Me</button> 
+    → If color changes to "blue", React only updates the color instead of re-rendering the entire <button>.
+
+2️⃣ Element Reordering & Key-Based Reconciliation
+    When rendering lists, React uses keys to track elements efficiently.
+    If keys are missing, React assumes elements have been reordered and re-renders everything unnecessarily.
+
+
+
+Q.) What is the useRef Hook in React?
+- The useRef hook in React is used to persist values across renders without causing re-renders. It is commonly used to:
+    Access and manipulate DOM elements directly
+    Store mutable values that don’t trigger re-renders
+    Hold references to previous state values
+
+- React’s useRef is like a “box” that holds a value that persists across renders, but updating this value does not cause the component to re-render. It returns an object with a .current property where the value is stored:
+    const ref = useRef(initialValue);
+    console.log(ref.current);
+
+
+Q.) React Lifecycle Methods (Class Components) & Lifecycle in Functional Components?
+-React components go through three main lifecycle phases:
+    1️⃣ Mounting (Component Creation & Insertion in DOM)
+    2️⃣ Updating (Re-rendering due to state/prop changes)
+    3️⃣ Unmounting (Component Removal from DOM)
+
+👉 Class components use lifecycle methods like componentDidMount, componentDidUpdate, and componentWillUnmount.
+👉 Functional components use useEffect to handle lifecycle behaviors.
+
+1️⃣ Mounting Phase (Component Creation & Insertion into DOM)
+When a component first renders, React calls the following lifecycle methods:
+
+Class Component Lifecycle Methods
+    Method	            Purpose
+    constructor()	    Initializes state & binds event handlers
+    render()	        Returns JSX (UI elements)
+    componentDidMount()	Runs after the component is added to the DOM (ideal for API calls)
+
+
+Functional Component Equivalent (Using useEffect)
+    const MyComponent = () => {
+    useEffect(() => {
+        console.log("Component Mounted!");
+    }, []);
+
+    return <h1>Hello, React!</h1>;
+    };
+🔹 useEffect(() => {}, []) acts like componentDidMount().
+
+2️⃣ Updating Phase (When Props or State Change)
+When a component re-renders due to state or prop changes, React calls:
+shouldComponentUpdate(nextProps, nextState)	    Optimizes performance by preventing unnecessary renders
+render()	                                    Re-renders the UI when state/props change
+componentDidUpdate(prevProps, prevState)	    Runs after re-render, useful for API calls based on prop/state change
+
+Functional Component Equivalent (Using useEffect)
+    const MyComponent = () => {
+    const [count, setCount] = useState(0);
+
+    useEffect(() => {
+        console.log("Component Updated!");
+    }, [count]);
+    return (
+        <div>
+        <h1>Count: {count}</h1>
+        <button onClick={() => setCount(count + 1)}>Increment</button>
+        </div>
+    );
+    };
+
+🔹 useEffect(() => {}, [count]) acts like componentDidUpdate().
+
+3️⃣ Unmounting Phase (Component Removal from DOM)
+When a component is removed, React calls:
+
+componentWillUnmount()	Cleanup tasks (e.g., remove event listeners, clear intervals, cancel API requests)
+
+Functional Component Equivalent (Using useEffect)
+    const MyComponent = () => {
+    useEffect(() => {
+        return () => {
+        console.log("Component Unmounted!");
+        };
+    }, []); // Runs only once (on unmount)
+
+    return <h1>Component Lifecycle!</h1>;
+    };
+
+🔹 Returning a function inside useEffect acts like componentWillUnmount().
+
+Lifecycle	Class Component	Functional Component
+Mount	componentDidMount()	useEffect(() => {}, [])
+Update	componentDidUpdate()	useEffect(() => {}, [dependency])
+Unmount	componentWillUnmount()	useEffect(() => { return () => {}; }, [])
