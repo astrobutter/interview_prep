@@ -1,0 +1,116 @@
+Question: Find the reverse of a string.
+    var str="hello whats up";
+    console.log(str.split(' ').reverse().join(' '))
+    str.split(' ')
+    // [ 'hello', 'whats', 'up' ]
+
+    str.split(' ').reverse()
+    // [ 'up', 'whats', 'hello' ]
+
+    str.split(' ').reverse().join(' ')
+    // up whats hello
+
+
+Question: Find the first non-repeated character in a string.
+    function firstNonRepeatedChar(str) {
+        const charCount = {};
+
+        // This loop is responsible for hashing of the characters
+        for (const char of str) {
+            charCount[char] = (charCount[char] || 0) + 1;
+            console.log(char, charCount[char]);
+        }
+            // p 1
+            // r 1
+            // o 1
+            // g 1
+            // r 2
+            // a 1
+            // m 1
+            // m 2
+            // i 1
+            // n 1
+            // g 2
+
+        for (const char of str) if (charCount[char] === 1) return char;
+        return null;
+    }
+    console.log(firstNonRepeatedChar("programming"));  // Output: "p"
+
+
+Question: Merge two sorted arrays into a new sorted array.
+    function mergeSortedArrays(arr1, arr2) {
+        const merged = [];
+        let i = 0, j = 0;
+        while (i < arr1.length && j < arr2.length) {
+            if (arr1[i] < arr2[j]) {
+                merged.push(arr1[i]);
+                i++;
+            } else {
+                merged.push(arr2[j]);
+                j++;
+            }
+        }
+        console.log( i, j, merged);
+        console.log(arr1.slice(i), arr2.slice(j));
+        // 3 2 [ 1, 2, 3, 4, 5 ]
+        // [] [ 6 ]
+        return merged.concat(arr1.slice(i)).concat(arr2.slice(j));
+    }
+
+    const arr1 = [1, 3, 5];
+    const arr2 = [2, 4, 6];
+    console.log(mergeSortedArrays(arr1, arr2)); // Output: [1, 2, 3, 4, 5, 6]
+
+
+Question: Check if a given expression has balanced parentheses.
+    function isBalanced(expression) {
+    const stack = [];
+    const pairs = { '(': ')', '{': '}', '[': ']' };
+    for (const char of expression) {
+        if (char in pairs) stack.push(char);
+        else {
+            const lastChar = stack.pop();
+            if (pairs[lastChar] !== char) return false;
+        }
+        console.log(stack);
+        // [ '{', '[' ]
+        // [ '{' ]
+        // []
+    }
+    return stack.length === 0;
+    }
+
+    console.log(isBalanced("{[()]}"));  // Output: true
+
+
+Question: how do you turn an Object into an Array []?
+    let obj = { id: "1", name: "user22", age: "26", work: "programmer" };
+
+    console.log(Object.keys(obj));
+    // [ 'id', 'name', 'age', 'work' ]
+
+
+    console.log(Object.values(obj));
+    // [ '1', 'user22', '26', 'programmer' ]
+
+    console.log(Object.entries(obj));
+    // [
+    //     [ 'id', '1' ],
+    //     [ 'name', 'user22' ],
+    //     [ 'age', '26' ],
+    //     [ 'work', 'programmer' ]
+    // ]
+
+
+Question: Write the code to find the vowels
+    const findVowels = str => {
+    let count = 0
+    const vowels = ['a', 'e', 'i', 'o', 'u']
+    for(let char of str.toLowerCase()) {
+        if(vowels.includes(char)) {
+        count++
+        }
+    }
+    return count
+    }
