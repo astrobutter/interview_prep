@@ -37,6 +37,21 @@ Question: Find the first non-repeated character in a string.
     }
     console.log(firstNonRepeatedChar("programming"));  // Output: "p"
 
+Question: Right-rotating a string/array at a target point.
+    function rotateAtTarget(str, target) {
+        const idx = str.indexOf(target); // find first occurrence of target
+        // 3
+
+        if (idx === -1) return str; // if target not found, return original
+
+        console.log(str.slice(idx));
+        // 203
+        
+        // split into two parts and rearrange
+        return str.slice(idx) + str.slice(0, idx);
+    }
+
+    console.log(rotateAtTarget("984203", "2")); // "203984"
 
 Question: Merge two sorted arrays into a new sorted array.
     function mergeSortedArrays(arr1, arr2) {
